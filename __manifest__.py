@@ -10,10 +10,16 @@
 Demo lesson for N-Dev.
 """,
     'depends': [
+        'base',
+        'uom',
     ],
     'data': [
-        'wizards/weather.xml',
+        'security/weather_security.xml',
+        'security/ir.model.access.csv',
+        'wizards/weather_fill.xml',
         'views/weather.xml',
+        'data/weather_decimal_precision.xml',
+        'data/uom_uom.xml',
     ],
     'demo': [],
     'installable': True,

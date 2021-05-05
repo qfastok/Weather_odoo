@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="group_weather_user" model="res.groups">
+        <field name="name">Weather User</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_weather_manager" model="res.groups">
+        <field name="name">Weather Manager</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record model="res.partner" id="partner_weather">
+        <field name="name">Weather</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="email">root.weather@example.com</field>
+    </record>
+
+    <record model="res.partner" id="partner_weather_manager">
+        <field name="name">Weather-Manager</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="email">manager.weather@example.com</field>
+    </record>
+
+
+    <record id="weather_user" model="res.users">
+        <field name="login">logined</field>
+        <field name="partner_id" ref="partner_weather"/>
+        <field name="groups_id"
+               eval="[(6,0, [ref('weather.group_weather_user')])]"/>
+    </record>
+
+    <record id="weather_manager" model="res.users">
+        <field name="login">weather.manager</field>
+        <field name="partner_id" ref="partner_weather_manager"/>
+        <field name="groups_id"
+               eval="[(6,0, [ref('weather.group_weather_manager')])]"/>
+    </record>
+
+</odoo>

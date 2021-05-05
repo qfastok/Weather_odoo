@@ -17,8 +17,11 @@
     <menuitem id="weather_city_menu" name="City weather"
               parent="main_weather_menu" action="weather_list_action"/>
 
+    <menuitem id="fill_weather_line" name="Fill Wizard"
+              parent="main_weather_menu" action="fill_wizard"/>
 
-    <record model="ir.ui.view" id="session_form_view">
+
+    <record model="ir.ui.view" id="weather_form_view">
         <field name="name">weather.form</field>
         <field name="model">city.weather</field>
         <field name="arch" type="xml">
@@ -35,6 +38,7 @@
                     <group>
                         <field name="temperature_uom_c_id"/>
                         <field name="temperature_c"/>
+                        <field name="temperature_uom_f_id"/>
                         <field name="temperature_f"/>
                         <field name="humidity"/>
                     </group>
@@ -43,7 +47,7 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="session_tree_view">
+    <record model="ir.ui.view" id="weather_tree_view">
         <field name="name">weather.tree</field>
         <field name="model">city.weather</field>
         <field name="arch" type="xml">
@@ -71,6 +75,7 @@
                 <group expand="1" string="Group By">
                     <filter string="By city" name="city_id" context="{'group_by':'city_id'}"/>
                     <filter string="State" name="state" context="{'group_by':'state'}"/>
+                    <filter string="Date" name="groupby_date" domain="[]" context="{'group_by':'date'}"/>
                 </group>
             </search>
         </field>

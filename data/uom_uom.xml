@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="uom_categ_temperature" model="uom.category">
+        <field name="name">Temperature C</field>
+    </record>
+
+    <record id="uom_categ_temperature_f" model="uom.category">
+        <field name="name">Temperature F</field>
+    </record>
+
+    <record id="temperature_uom_celsius" model="uom.uom">
+        <field name="name">Celsius</field>
+        <field name="category_id" ref="weather.uom_categ_temperature"/>
+        <field name="factor" eval="1.0"/>
+        <field name="uom_type">reference</field>
+    </record>
+
+    <record id="temperature_uom_fahrenheit" model="uom.uom">
+        <field name="name">Fahrenheit</field>
+        <field name="category_id" ref="weather.uom_categ_temperature_f"/>
+        <field name="factor" eval="1.0"/>
+        <field name="uom_type">reference</field>
+    </record>
+
+
+</odoo>

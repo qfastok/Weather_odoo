@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="filling_form" model="ir.ui.view">
+        <field name="name">fill.weather.wizard</field>
+        <field name="model">fill.weather.line</field>
+        <field name="arch" type="xml">
+            <form string="Customer">
+                <group>
+                    <field name="filling_date"/>
+                    <field name="filling_city"/>
+                    <field name="filling_humidity"/>
+                    <field name="filling_temperature_c"/>
+                </group>
+                <footer>
+                    <!--                    <button name="fill_demo" string="Fill" type="object" class="btn-primary"/>-->
+                    <button string="Cancel" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="fill_wizard" model="ir.actions.act_window">
+        <field name="name">Auto Fill</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fill.weather.line</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="filling_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -11,6 +11,7 @@ Demo lesson for N-Dev.
 """,
     'depends': [
         'base',
+        'base_address_city',
         'uom',
     ],
     'data': [

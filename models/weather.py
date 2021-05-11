@@ -86,13 +86,3 @@ class Weather(models.Model):
         for check in self:
             if check.date > fields.Date.today():
                 raise ValidationError(_("Date can't be higher than today."))
-
-    def create_invoice_from_file(self, module_name, subfolder, filename):
-        file_path = get_module_resource(module_name, 'test_file', filename)
-        file = open(file_path, 'rb').read()
-
-        attachment = self.env['ir.attachment'].create({
-            'name': filename,
-            'datas': base64.encodebytes(file),
-            'res_model': 'account.move',
-        })

@@ -2,17 +2,34 @@
 <odoo>
     <record id="filling_form" model="ir.ui.view">
         <field name="name">fill.weather.wizard</field>
-        <field name="model">fill.weather.line</field>
+        <field name="model">weather.fill.wizard</field>
         <field name="arch" type="xml">
             <form string="Customer">
                 <group>
-                    <field name="filling_date"/>
-                    <field name="filling_city"/>
-                    <field name="filling_humidity"/>
-                    <field name="filling_temperature_c"/>
+                    <field name="weather_file" filename="weather_filename"/>
+                    <field name="weather_filename" invisible="1"/>
+                    <field name="weather_fill_wizard_line_ids"
+                           attrs="{'invisible': [('file_parsed', '=', False)]}">
+                        <tree editable="bottom">
+                            <field name="city"/>
+                            <field name="temperature_c"/>
+                            <field name="error_description"/>
+                            <field name="humidity"/>
+                            <field name="date"/>
+                        </tree>
+                    </field>
+                    <field name="file_parsed" invisible="1"/>
                 </group>
                 <footer>
-                    <!--                    <button name="fill_demo" string="Fill" type="object" class="btn-primary"/>-->
+                    <button name="parse_weather_fill_file" string="Parse Data"
+                            type="object" class="btn-primary"
+                            attrs="{'invisible': [('file_parsed', '=', True)]}"/>
+
+                    <button name="upload_weather"
+                            string="Upload Weather"
+                            type="object" class="btn-primary"
+                            attrs="{'invisible': [('file_parsed', '=', False)]}"/>
+
                     <button string="Cancel" class="btn-secondary"
                             special="cancel"/>
                 </footer>
@@ -23,7 +40,7 @@
     <record id="fill_wizard" model="ir.actions.act_window">
         <field name="name">Auto Fill</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fill.weather.line</field>
+        <field name="res_model">weather.fill.wizard</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="filling_form"/>
         <field name="target">new</field>

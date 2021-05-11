@@ -2,5 +2,8 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_city_weather_user,access.city.weather.user,model_city_weather,weather.group_weather_user,0,0,0,1
 access_city_weather_manager,access.city.weather.manager,model_city_weather,weather.group_weather_manager,1,1,1,1
 
-access_wizard_weather_user,access.fill.weather.line.user,model_fill_weather_line,weather.group_weather_user,0,0,0,1
-access_wizard_weather_manager,access.fill.weather.line.manager,model_fill_weather_line,weather.group_weather_manager,1,1,1,1
+access_wizard_weather_user,access.weather.fill.wizard.user,model_weather_fill_wizard,weather.group_weather_user,0,0,0,1
+access_wizard_weather_manager,access.weather.fill.wizard.manager,model_weather_fill_wizard,weather.group_weather_manager,1,1,1,1
+
+access_wizard_weather_line_user,access.weather.fill.wizard.line.user,model_weather_fill_wizard_line,weather.group_weather_user,0,0,0,1
+access_wizard_weather_line_manager,access.weather.fill.wizard.line.manager,model_weather_fill_wizard_line,weather.group_weather_manager,1,1,1,1

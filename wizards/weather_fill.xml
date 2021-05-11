@@ -6,32 +6,41 @@
         <field name="arch" type="xml">
             <form string="Customer">
                 <group>
-                    <field name="weather_file" filename="weather_filename"/>
+                    <field name="weather_file" filename="weather_filename"
+                           attrs="{'invisible': [('data_uploaded', '=', True)]}"/>
                     <field name="weather_filename" invisible="1"/>
                     <field name="weather_fill_wizard_line_ids"
                            attrs="{'invisible': [('file_parsed', '=', False)]}">
                         <tree editable="bottom">
                             <field name="city"/>
                             <field name="temperature_c"/>
-                            <field name="error_description"/>
                             <field name="humidity"/>
                             <field name="date"/>
+                            <field name="error_description"/>
                         </tree>
                     </field>
                     <field name="file_parsed" invisible="1"/>
+                    <field name="data_uploaded" invisible="1"/>
                 </group>
                 <footer>
                     <button name="parse_weather_fill_file" string="Parse Data"
                             type="object" class="btn-primary"
-                            attrs="{'invisible': [('file_parsed', '=', True)]}"/>
+                            attrs="{'invisible': ['|', ('file_parsed', '=', True), ('data_uploaded', '=', True)]}"/>
 
                     <button name="upload_weather"
                             string="Upload Weather"
                             type="object" class="btn-primary"
-                            attrs="{'invisible': [('file_parsed', '=', False)]}"/>
+                            attrs="{'invisible': ['|', ('file_parsed', '=', False), ('data_uploaded', '=', True)]}"/>
+
 
                     <button string="Cancel" class="btn-secondary"
-                            special="cancel"/>
+                            special="cancel"
+                            attrs="{'invisible': [('data_uploaded', '=', True)]}"/>
+
+                    <button name="refresh_city_weather" string="Continue"
+                            class="btn-primary" type="object"
+                            attrs="{'invisible': [('data_uploaded', '=', False)]}">
+                    </button>
                 </footer>
             </form>
         </field>

@@ -6,7 +6,7 @@ from odoo.exceptions import UserError
 import csv
 import io
 import base64
-import datetime
+from datetime import datetime
 
 
 class FillWeatherLine(models.TransientModel):
@@ -29,15 +29,18 @@ class FillWeatherLine(models.TransientModel):
         reader = csv.DictReader(
             io.StringIO(base64.b64decode(self.weather_file).decode("utf-8")))
         for row in reader:
-            format = "%Y-%m-%d"
+            print (row['date'])
             error_description = ''
             can_load = True
+            date_format = '%Y-%m-%d'
 
             try:
-                datetime.datetime.strptime(row['date'], format)
+                datetime.strptime(row['date'], date_format)
+                print('d')
             except ValueError:
                 error_description += 'Incorrect date format. '
                 can_load = False
+                print ('f')
 
             try:
                 float(row['humidity'])
@@ -53,12 +56,12 @@ class FillWeatherLine(models.TransientModel):
 
             wizard_line.create({
                 'weather_fill_wizard_id': self.id,
+                'can_load': can_load,
+                'error_description': error_description,
                 'city': row['city'],
                 'humidity': row['humidity'],
                 'temperature_c': row['temperature_c'],
-                'date': fields.Date.to_date(row['date']),
-                'can_load': can_load,
-                'error_description': error_description,
+                'date': row['date'],
             })
 
         self.file_parsed = True
@@ -69,19 +72,13 @@ class FillWeatherLine(models.TransientModel):
             'res_model': 'weather.fill.wizard',
             'view_id': view.id,
             'target': 'new',
-
         }
-
-    # Method upload_weather: will get weather_fill_wizard_line_ids and creates
-    # records to city.weather based on line data.
-    # self.weather_fill_wizard_line_ids()  # method create
 
     def upload_weather(self):
         self.ensure_one()
         wizard_line_fill = self.env['city.weather'].sudo()
         ResCity = self.env['res.city'].sudo()
         country_ua = self.env.ref('base.ua')
-        self.env['weather.fill.wizard.line'].sudo()
         view = self.env.ref('weather.filling_form')
         for line in self.weather_fill_wizard_line_ids:
             if not line.can_load:
@@ -106,8 +103,8 @@ class FillWeatherLine(models.TransientModel):
                 'date': line.date,  # yyyy-mm-dd
             })
 
-            if line.can_load:
-                line.unlink()
+            line.unlink()
+
         self.data_uploaded = True
         return {
             'type': 'ir.actions.act_window',
@@ -119,15 +116,11 @@ class FillWeatherLine(models.TransientModel):
         }
 
     def refresh_city_weather(self):
-        city_weather = self.env['city.weather'].sudo()
-        view = self.env.ref('weather.weather_tree_view')
         return {
-            'type': 'ir.actions.act_window',
-            'view_mode': 'tree',
-            'res_id': city_weather.id,
-            'res_model': 'city.weather',
-            'view_id': view.id,
+            'type': 'ir.actions.client',
+            'tag': 'reload',
         }
+
 
 class FillWeather(models.TransientModel):
     _name = "weather.fill.wizard.line"
@@ -141,4 +134,4 @@ class FillWeather(models.TransientModel):
     error_description = fields.Char(readonly=True, size=150,
                                     string='Error Description')
     can_load = fields.Boolean(default=True)
-    date = fields.Date(string='Date', readonly=True)
+    date = fields.Char(string='Date', readonly=True)

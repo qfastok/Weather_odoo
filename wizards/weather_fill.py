@@ -28,19 +28,21 @@ class FillWeatherLine(models.TransientModel):
         view = self.env.ref('weather.filling_form')
         reader = csv.DictReader(
             io.StringIO(base64.b64decode(self.weather_file).decode("utf-8")))
+
+        if not self.weather_filename.endswith('.csv'):
+            raise UserError(
+                _(f"Unable to load {self.weather_filename} file must be .csv"))
+
         for row in reader:
-            print (row['date'])
             error_description = ''
             can_load = True
             date_format = '%Y-%m-%d'
 
             try:
                 datetime.strptime(row['date'], date_format)
-                print('d')
             except ValueError:
                 error_description += 'Incorrect date format. '
                 can_load = False
-                print ('f')
 
             try:
                 float(row['humidity'])
@@ -80,6 +82,7 @@ class FillWeatherLine(models.TransientModel):
         ResCity = self.env['res.city'].sudo()
         country_ua = self.env.ref('base.ua')
         view = self.env.ref('weather.filling_form')
+
         for line in self.weather_fill_wizard_line_ids:
             if not line.can_load:
                 continue
@@ -95,12 +98,11 @@ class FillWeatherLine(models.TransientModel):
                     {'name': line.city,
                      'country_id': country_ua.id})
 
-                # self.env.ref- посилання по xml.id
             wizard_line_fill.create({
                 'city_id': city_id.id,
                 'humidity': float(line.humidity),
                 'temperature_c': float(line.temperature_c),
-                'date': line.date,  # yyyy-mm-dd
+                'date': line.date,
             })
 
             line.unlink()

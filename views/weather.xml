@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="weather_list_action" model="ir.actions.act_window">
-
         <field name="name">Weather</field>
         <field name="res_model">city.weather</field>
         <field name="view_mode">tree,form</field>
@@ -12,12 +11,12 @@
 
     <menuitem name="Weather"
               id="main_weather_menu"
-              sequence="40"/>
+              sequence="39"/>
 
     <menuitem id="weather_city_menu" name="City weather"
               parent="main_weather_menu" action="weather_list_action"/>
 
-    <menuitem id="fill_weather_line" name="Fill Wizard"
+    <menuitem id="fill_weather_menu" name="Fill Wizard"
               parent="main_weather_menu" action="fill_wizard"/>
 
 
@@ -27,8 +26,11 @@
         <field name="arch" type="xml">
             <form string="Weather Form">
                 <header>
-                    <button name="action_confirm" string="Confirm" type="object"/>
-                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                    <button name="action_confirm" string="Confirm"
+                            type="object"
+                            attrs="{'invisible': [('state', '=', 'confirmed')]}"/>
+                    <field name="state" widget="statusbar"
+                           options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
                     <group>
@@ -70,12 +72,17 @@
             <search string="Weather Search">
                 <field name="city_id"/>
                 <field name="date"/>
-                <filter string="Temperature>0" name="plus_temp" domain="[('temperature_c','>', '0')]"/>
-                <filter string="Temperature&lt;0" name="plus_temp" domain="[('temperature_c','&lt;', '0')]"/>
+                <filter string="Temperature>0" name="plus_temp"
+                        domain="[('temperature_c','>', '0')]"/>
+                <filter string="Temperature&lt;0" name="plus_temp"
+                        domain="[('temperature_c','&lt;', '0')]"/>
                 <group expand="1" string="Group By">
-                    <filter string="By city" name="city_id" context="{'group_by':'city_id'}"/>
-                    <filter string="State" name="state" context="{'group_by':'state'}"/>
-                    <filter string="Date" name="groupby_date" domain="[]" context="{'group_by':'date'}"/>
+                    <filter string="By city" name="city_id"
+                            context="{'group_by':'city_id'}"/>
+                    <filter string="State" name="state"
+                            context="{'group_by':'state'}"/>
+                    <filter string="Date" name="groupby_date"
+                            context="{'group_by':'date'}"/>
                 </group>
             </search>
         </field>

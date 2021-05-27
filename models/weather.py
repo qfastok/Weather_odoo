@@ -74,8 +74,8 @@ class Weather(models.Model):
 
     @api.depends('temperature_c')
     def _compute_fahrenheit_temperature(self):
-        for r in self:
-            r.temperature_f = 32 + 1.8 * r.temperature_c
+        for rec in self:
+            rec.temperature_f = 32 + 1.8 * rec.temperature_c
 
     def action_confirm(self):
         for rec in self:
@@ -83,6 +83,6 @@ class Weather(models.Model):
 
     @api.constrains('date')
     def _check_date(self):
-        for check in self:
-            if check.date > fields.Date.today():
+        for record in self:
+            if record.date > fields.Date.today():
                 raise ValidationError(_("Date can't be higher than today."))

@@ -28,15 +28,18 @@ class FillWeatherLine(models.TransientModel):
         view = self.env.ref('weather.filling_form')
         reader = csv.DictReader(
             io.StringIO(base64.b64decode(self.weather_file).decode("utf-8")))
-
         if not self.weather_filename.endswith('.csv'):
             raise UserError(
                 _(f"Unable to load {self.weather_filename} file must be .csv"))
-
+        columns = ['city','date','humidity','temperature_c']
         for row in reader:
             error_description = ''
             can_load = True
             date_format = '%Y-%m-%d'
+
+            if row.keys() != columns:
+                raise UserError(
+                    _("You have mistake in columns names!"))
 
             try:
                 datetime.strptime(row['date'], date_format)

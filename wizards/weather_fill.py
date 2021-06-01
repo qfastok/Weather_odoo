@@ -37,7 +37,7 @@ class FillWeatherLine(models.TransientModel):
             can_load = True
             date_format = '%Y-%m-%d'
 
-            if row.keys() != columns:
+            if len(row.keys()) != len(columns):
                 raise UserError(
                     _("You have mistake in columns names!"))
 
@@ -78,6 +78,7 @@ class FillWeatherLine(models.TransientModel):
             'view_id': view.id,
             'target': 'new',
         }
+    # FIXME: Check if temperature>100 += error
 
     def upload_weather(self):
         self.ensure_one()

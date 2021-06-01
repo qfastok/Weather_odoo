@@ -7,6 +7,7 @@
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face"/>
         </field>
+        <field name="context">{"search_default_groupby_city_id":1}</field>
     </record>
 
     <menuitem name="Weather"
@@ -26,9 +27,6 @@
         <field name="arch" type="xml">
             <form string="Weather Form">
                 <header>
-                    <button name="action_confirm" string="Confirm"
-                            type="object"
-                            attrs="{'invisible': [('state', '=', 'confirmed')]}"/>
                     <field name="state" widget="statusbar"
                            options="{'clickable': '1'}"/>
                 </header>
@@ -77,9 +75,9 @@
                 <filter string="Temperature&lt;0" name="plus_temp"
                         domain="[('temperature_c','&lt;', '0')]"/>
                 <group expand="1" string="Group By">
-                    <filter string="By city" name="city_id"
+                    <filter string="By city" name="groupby_city_id"
                             context="{'group_by':'city_id'}"/>
-                    <filter string="State" name="state"
+                    <filter string="State" name="groupby_state"
                             context="{'group_by':'state'}"/>
                     <filter string="Date" name="groupby_date"
                             context="{'group_by':'date'}"/>
@@ -87,6 +85,5 @@
             </search>
         </field>
     </record>
-
 
 </odoo>

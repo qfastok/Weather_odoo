@@ -68,7 +68,7 @@ class Weather(models.Model):
          "Temperature can't be higher than 100 or lower than -100!"),
         ('unique_check', 'unique (date,city_id)',
          'Date and City must be unique'),
-        ('humidity_check', 'CHECK(humidity < 100 AND humidity > 0)',
+        ('humidity_check', 'CHECK(humidity < 100 AND humidity >= 0)',
          "Humidity can't be more than 100%, or lower than 0%"),
     ]
 
@@ -76,10 +76,6 @@ class Weather(models.Model):
     def _compute_fahrenheit_temperature(self):
         for rec in self:
             rec.temperature_f = 32 + 1.8 * rec.temperature_c
-
-    def action_confirm(self):
-        for rec in self:
-            rec.state = 'confirmed'
 
     @api.constrains('date')
     def _check_date(self):

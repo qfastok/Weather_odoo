@@ -21,6 +21,8 @@ Demo lesson for N-Dev.
         'views/weather.xml',
         'data/weather_decimal_precision.xml',
         'data/uom_uom.xml',
+        'reports/report.xml',
+        'reports/report_template.xml',
     ],
     'demo': [],
     'installable': True,

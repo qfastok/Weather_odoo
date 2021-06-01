@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_city_weather_report" model="ir.actions.report">
+        <field name="name">PDF Report</field>
+        <field name="model">city.weather</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">weather.report_city_weather</field>
+        <field name="report_file">weather.report_city_weather</field>
+        <field name="binding_model_id" ref="model_city_weather"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

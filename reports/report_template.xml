@@ -2,17 +2,58 @@
 <odoo>
     <template id="report_city_weather">
         <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="o">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <h2>Report "City Weather"</h2>
-                        <p>City is <span t-field="o.city_id"/></p>
-                        <p>Date is <span t-field="o.date"/></p>
-                        <p>Temperature is <span t-field="o.temperature_c"/> <span t-field="o.temperature_uom_c_id"/></p>
-                        <p><span t-field="o.temperature_f"/> <span t-field="o.temperature_uom_f_id"/></p>
-                        <p>Humidity is <span t-field="o.humidity"/>%</p>
-                    </div>
-                </t>
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <h2>
+                        <strong>Report "City Weather"</strong>
+                    </h2>
+                    <h2>
+                        <b>
+                            <span>Reporter: </span>
+                            <span t-esc="user.name"/>
+                        </b>
+                    </h2>
+                    <h2>
+                        <b>
+                            <span>Date: </span>
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>
+                        </b>
+                    </h2>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th name="td_city_id" class="text-center">
+                                    City</th>
+                                <th name="td_date" class="text-center">
+                                    Date</th>
+                                <th name="td_temperature_c"
+                                    class="text-center">Celsius °С</th>
+                                <th name="td_humidity"
+                                    class="text-center">Humidity %</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="weather_tbody">
+                            <t t-foreach="docs" t-as="line">
+                                <tr t-att-class="o_line_selection">
+                                    <td name="td_city_id"
+                                        class="text-center"><span
+                                            t-field="line.city_id"/></td>
+                                    <td name="td_date"
+                                        class="text-center"><span
+                                            t-field="line.date"/></td>
+                                    <td name="td_temperature_c"
+                                        class="text-center"><span
+                                            t-field="line.temperature_c"/></td>
+                                    <td name="td_humidity"
+                                        class="text-center"><span
+                                            t-field="line.humidity"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
             </t>
         </t>
     </template>

@@ -130,9 +130,8 @@ class FillWeatherLine(models.TransientModel):
                 'date': line.date,
             })
 
-        filtered_line = self.weather_fill_wizard_line_ids.filtered('can_load')
-        if filtered_line:
-            filtered_line.unlink()
+        self.weather_fill_wizard_line_ids.filtered(
+            lambda r: r.can_load).unlink()
 
         self.data_uploaded = True
         return {

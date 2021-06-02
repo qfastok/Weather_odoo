@@ -3,11 +3,11 @@
     <record id="weather_list_action" model="ir.actions.act_window">
         <field name="name">Weather</field>
         <field name="res_model">city.weather</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,pivot</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face"/>
         </field>
-        <field name="context">{"search_default_groupby_city_id":1}</field>
+        <field name="context">{"search_default_groupby_city_id": 1}</field>
     </record>
 
     <menuitem name="Weather"
@@ -47,6 +47,19 @@
         </field>
     </record>
 
+    <record id="view_weather_analistic_pivot" model="ir.ui.view">
+        <field name="name">city.weather.pivot</field>
+        <field name="model">city.weather</field>
+        <field name="arch" type="xml">
+            <pivot string="Analytic Entries" sample="1">
+                <field name="city_id"/>
+                <field name="date"/>
+                <field name="temperature_c"/>
+                <field name="temperature_f"/>
+            </pivot>
+        </field>
+    </record>
+
     <record model="ir.ui.view" id="weather_tree_view">
         <field name="name">weather.tree</field>
         <field name="model">city.weather</field>
@@ -61,7 +74,6 @@
             </tree>
         </field>
     </record>
-
 
     <record id="weather_search" model="ir.ui.view">
         <field name="name">weather.search</field>

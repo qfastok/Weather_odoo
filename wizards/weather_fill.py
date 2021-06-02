@@ -3,6 +3,7 @@
 from odoo import api, fields, models, _, tools
 from odoo.exceptions import UserError
 
+import logging
 import csv
 import io
 import base64
@@ -41,8 +42,13 @@ class FillWeatherLine(models.TransientModel):
         self.ensure_one()
         wizard_line = self.env['weather.fill.wizard.line'].sudo()
         view = self.env.ref('weather.filling_form')
-        reader = csv.DictReader(
-            io.StringIO(base64.b64decode(self.weather_file).decode("utf-8")))
+        try:
+            reader = csv.DictReader(
+                io.StringIO(base64.b64decode(self.weather_file).decode("utf-8")))
+        except Exception as e:
+            logging.warning(e)
+            raise UserError(
+                _("Error when opening file. Please call administrator."))
         if not self.weather_filename.endswith('.csv'):
             raise UserError(
                 _(f"Unable to load {self.weather_filename} file must be .csv"))
